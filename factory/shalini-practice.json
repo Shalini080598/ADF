@@ -1,0 +1,9 @@
+{
+	"name": "shalini-practice",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8ec60677-d0f4-420c-9b16-4806a8ee6541",
+		"tenantId": "d57a98e7-744d-43f9-bc91-08de1ff3710d"
+	}
+}

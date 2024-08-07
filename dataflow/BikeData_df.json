@@ -1,0 +1,65 @@
+{
+	"name": "BikeData_df",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "InputData",
+						"type": "DatasetReference"
+					},
+					"name": "GetSourceData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OutputData",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CalSalesCost"
+				},
+				{
+					"name": "CalProfit"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Region as string,",
+				"          Country as string,",
+				"          Customer as string,",
+				"          {Business Segment} as string,",
+				"          Category as string,",
+				"          Model as string,",
+				"          Color as string,",
+				"          SalesDate as string,",
+				"          ListPrice as double,",
+				"          UnitPrice as double,",
+				"          OrderQty as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> GetSourceData",
+				"GetSourceData derive(Cost = UnitPrice*OrderQty,",
+				"          Sales = ListPrice*OrderQty) ~> CalSalesCost",
+				"CalSalesCost derive(Profit = Sales-Cost) ~> CalProfit",
+				"CalProfit sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

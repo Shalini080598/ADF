@@ -1,0 +1,47 @@
+{
+	"name": "TrainingData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adlstoadf_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Training",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "training.xlsx",
+				"fileSystem": "training"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Start Date",
+				"type": "String"
+			},
+			{
+				"name": "Course Code",
+				"type": "String"
+			},
+			{
+				"name": "Course Name",
+				"type": "String"
+			},
+			{
+				"name": "Employee ID",
+				"type": "String"
+			},
+			{
+				"name": "Cost",
+				"type": "String"
+			},
+			{
+				"name": "Supplier",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

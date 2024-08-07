@@ -1,0 +1,17 @@
+{
+	"name": "EmpTrainingData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adftoasql_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "EmpTraining_TB"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

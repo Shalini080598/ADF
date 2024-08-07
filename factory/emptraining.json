@@ -1,0 +1,9 @@
+{
+	"name": "emptraining",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "74b9f57c-538d-4de1-af2b-65d268a5f3ce",
+		"tenantId": "d57a98e7-744d-43f9-bc91-08de1ff3710d"
+	}
+}

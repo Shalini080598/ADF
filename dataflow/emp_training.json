@@ -1,0 +1,99 @@
+{
+	"name": "emp_training",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "EmpData",
+						"type": "DatasetReference"
+					},
+					"name": "getEmpData"
+				},
+				{
+					"dataset": {
+						"referenceName": "TrainingData",
+						"type": "DatasetReference"
+					},
+					"name": "getTrainingData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "EmpTrainingData",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "EmpTraining"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EmployeeID as string,",
+				"          ManagerID as string,",
+				"          Title as string,",
+				"          MaritalStatus as string,",
+				"          Gender as string,",
+				"          HireDate as string,",
+				"          Dept as string,",
+				"          {Job Grade} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getEmpData",
+				"source(output(",
+				"          {Start Date} as string,",
+				"          {Course Code} as string,",
+				"          {Course Name} as string,",
+				"          {Employee ID} as string,",
+				"          Cost as string,",
+				"          Supplier as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getTrainingData",
+				"getEmpData, getTrainingData join(EmployeeID == {Employee ID},",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> EmpTraining",
+				"EmpTraining select(mapColumn(",
+				"          EmployeeID,",
+				"          ManagerID,",
+				"          Title,",
+				"          MaritalStatus,",
+				"          Gender,",
+				"          HireDate,",
+				"          Dept,",
+				"          {Job Grade},",
+				"          {Start Date},",
+				"          CourseCode = {Course Code},",
+				"          CourseName = {Course Name},",
+				"          Cost,",
+				"          Supplier",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

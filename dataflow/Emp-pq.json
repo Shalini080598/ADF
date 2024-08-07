@@ -1,0 +1,20 @@
+{
+	"name": "Emp-pq",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "InputData",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> InputData",
+					"dataset": {
+						"referenceName": "InputData",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared InputData = let AdfDoc = AzureStorage.BlobContents(\"https://practice2emp.blob.core.windows.net/data/Emp_Data.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"InputData\",\r\n  #\"Replaced value\" = Table.ReplaceValue(Source, \"M\", \"Male\", Replacer.ReplaceText, {\"MaritalStatus\"}),\r\n  #\"Replaced value 1\" = Table.ReplaceValue(#\"Replaced value\", \"Male\", \"Married\", Replacer.ReplaceText, {\"MaritalStatus\"}),\r\n  #\"Replaced value 2\" = Table.ReplaceValue(#\"Replaced value 1\", \"S\", \"Single\", Replacer.ReplaceText, {\"MaritalStatus\"}),\r\n  #\"Replaced value 3\" = Table.ReplaceValue(#\"Replaced value 2\", \"M\", \"Male\", Replacer.ReplaceText, {\"Gender\"}),\r\n  #\"Replaced value 4\" = Table.ReplaceValue(#\"Replaced value 3\", \"F\", \"Female\", Replacer.ReplaceText, {\"Gender\"}) in #\"Replaced value 4\";\r\n",
+			"documentLocale": "en-us"
+		}
+	}
+}

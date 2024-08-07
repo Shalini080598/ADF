@@ -1,0 +1,9 @@
+{
+	"name": "emp-practice",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "365c4db3-9661-4518-b1de-18d0334c1d24",
+		"tenantId": "d57a98e7-744d-43f9-bc91-08de1ff3710d"
+	}
+}

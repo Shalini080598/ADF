@@ -1,0 +1,17 @@
+{
+	"name": "OutputData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adftoasql_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "EMP_TB"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

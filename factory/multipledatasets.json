@@ -1,0 +1,9 @@
+{
+	"name": "multipledatasets",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fa068753-f4a9-4f1f-985f-554c8bc1577e",
+		"tenantId": "d57a98e7-744d-43f9-bc91-08de1ff3710d"
+	}
+}

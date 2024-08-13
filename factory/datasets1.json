@@ -1,0 +1,9 @@
+{
+	"name": "datasets1",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5a0cbe7a-3420-4e06-b8a6-6ff1c407abfb",
+		"tenantId": "d57a98e7-744d-43f9-bc91-08de1ff3710d"
+	}
+}

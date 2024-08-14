@@ -1,0 +1,31 @@
+{
+	"name": "Categories",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blobtoadf_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Categories",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Categories.xlsx",
+				"container": "denisdimdata"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "CategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "Category",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

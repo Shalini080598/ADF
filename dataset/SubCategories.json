@@ -1,0 +1,35 @@
+{
+	"name": "SubCategories",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blobtoadf_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sub categories",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "SubCategories.xlsx",
+				"container": "denisdimdata"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "SubCategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "CategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "SubCategory Name",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "SalesRep",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blobtoadf_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sales rep",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "SalesRep.xlsx",
+				"container": "denisdimdata"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "SalesRepID",
+				"type": "String"
+			},
+			{
+				"name": "Sales Rep Name",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

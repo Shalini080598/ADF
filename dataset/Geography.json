@@ -1,0 +1,33 @@
+{
+	"name": "Geography",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blobtoadf_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Geography.json",
+				"container": "denisdimdata"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Country": {
+					"type": "string"
+				},
+				"Town": {
+					"type": "string"
+				},
+				"Wikipedia": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,77 @@
+{
+	"name": "Sales_DF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SalesData",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SalesStaging",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          fSalesPrimaryKey as string,",
+				"          ProductID as string,",
+				"          SalesRepID as string,",
+				"          Location as string,",
+				"          Date as string,",
+				"          Units as string,",
+				"          PercentOfStandardCost as string,",
+				"          RevenueDiscount as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(Country = regexSplit(Location, ';')[1],",
+				"          State = regexSplit(Location, ';')[2]) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          fSalesPrimaryKey,",
+				"          ProductID,",
+				"          SalesRepID,",
+				"          Country,",
+				"          State,",
+				"          Date,",
+				"          Units,",
+				"          PercentOfStandardCost,",
+				"          RevenueDiscount",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(Date = toDate(Date, 'dd.MM.yyyy')) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     filePattern:'SalesSD',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

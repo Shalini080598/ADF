@@ -1,0 +1,17 @@
+{
+	"name": "DenisData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adftoasql_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "Denis_Tb"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

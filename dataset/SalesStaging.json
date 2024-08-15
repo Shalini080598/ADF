@@ -1,17 +1,18 @@
 {
-	"name": "ProductStaging",
+	"name": "SalesStaging",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "blobtoadf_ls",
+			"referenceName": "adlstoadf_ls",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation",
-				"fileName": "ProductSD",
-				"container": "denisdimstagingdata"
+				"type": "AzureBlobFSLocation",
+				"fileName": "SalesSD",
+				"folderPath": "salesstaging",
+				"fileSystem": "denisfactstagingdata"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

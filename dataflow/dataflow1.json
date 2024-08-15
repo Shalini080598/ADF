@@ -1,0 +1,232 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CategoriesStaging",
+						"type": "DatasetReference"
+					},
+					"name": "getCategories"
+				},
+				{
+					"dataset": {
+						"referenceName": "SubCategoriesStaging",
+						"type": "DatasetReference"
+					},
+					"name": "getSubCategories"
+				},
+				{
+					"dataset": {
+						"referenceName": "ProductStaging",
+						"type": "DatasetReference"
+					},
+					"name": "getProduct"
+				},
+				{
+					"dataset": {
+						"referenceName": "SalesRepStaging",
+						"type": "DatasetReference"
+					},
+					"name": "getSalesRep"
+				},
+				{
+					"dataset": {
+						"referenceName": "GeographyStaging",
+						"type": "DatasetReference"
+					},
+					"name": "getGeography"
+				},
+				{
+					"dataset": {
+						"referenceName": "SalesStaging",
+						"type": "DatasetReference"
+					},
+					"name": "getSales"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DenisData",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinCategorySubCategory"
+				},
+				{
+					"name": "selectedCategorySubCategory"
+				},
+				{
+					"name": "joinProductCategorySubCategory"
+				},
+				{
+					"name": "selectedProductCategory"
+				},
+				{
+					"name": "joinSalesSalesRep"
+				},
+				{
+					"name": "selectedSalesSalesRep"
+				},
+				{
+					"name": "joinSelectedSalesSelectedCategory"
+				},
+				{
+					"name": "AllSelectedColumns"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CategoryKey as short,",
+				"          Category as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getCategories",
+				"source(output(",
+				"          SubCategoryKey as short,",
+				"          CategoryKey as short,",
+				"          {SubCategory Name} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getSubCategories",
+				"source(output(",
+				"          ProductID as short,",
+				"          ProductName as string,",
+				"          {Sub Category Key} as short,",
+				"          Color as string,",
+				"          RetailPrice as double,",
+				"          StandardCost as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getProduct",
+				"source(output(",
+				"          SalesRepID as short,",
+				"          {Sales Rep Name} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getSalesRep",
+				"source(output(",
+				"          GeoKey as short,",
+				"          Country as string,",
+				"          Town as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getGeography",
+				"source(output(",
+				"          fSalesPrimaryKey as integer,",
+				"          ProductID as short,",
+				"          SalesRepID as short,",
+				"          Country as string,",
+				"          State as string,",
+				"          Date as date,",
+				"          Units as short,",
+				"          PercentOfStandardCost as double,",
+				"          RevenueDiscount as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> getSales",
+				"getCategories, getSubCategories join(getCategories@CategoryKey == getSubCategories@CategoryKey,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinCategorySubCategory",
+				"joinCategorySubCategory select(mapColumn(",
+				"          SubCategoryKey,",
+				"          Category,",
+				"          {SubCategory Name}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectedCategorySubCategory",
+				"getProduct, selectedCategorySubCategory join({Sub Category Key} == SubCategoryKey,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinProductCategorySubCategory",
+				"joinProductCategorySubCategory select(mapColumn(",
+				"          ProductID,",
+				"          ProductName,",
+				"          Category,",
+				"          {SubCategory Name},",
+				"          Color,",
+				"          RetailPrice,",
+				"          StandardCost",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectedProductCategory",
+				"getSales, getSalesRep join(getSales@SalesRepID == getSalesRep@SalesRepID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinSalesSalesRep",
+				"joinSalesSalesRep select(mapColumn(",
+				"          fSalesPrimaryKey,",
+				"          ProductID,",
+				"          {Sales Rep Name},",
+				"          Country,",
+				"          State,",
+				"          Date,",
+				"          Units,",
+				"          PercentOfStandardCost,",
+				"          RevenueDiscount",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectedSalesSalesRep",
+				"selectedSalesSalesRep, selectedProductCategory join(selectedSalesSalesRep@ProductID == selectedProductCategory@ProductID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinSelectedSalesSelectedCategory",
+				"joinSelectedSalesSelectedCategory select(mapColumn(",
+				"          fSalesPrimaryKey,",
+				"          {Sales Rep Name},",
+				"          Category,",
+				"          {SubCategory Name},",
+				"          Color,",
+				"          ProductName,",
+				"          Country,",
+				"          State,",
+				"          Date,",
+				"          Units,",
+				"          PercentOfStandardCost,",
+				"          RevenueDiscount,",
+				"          RetailPrice,",
+				"          StandardCost",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> AllSelectedColumns",
+				"AllSelectedColumns derive(TotalRevenue = RetailPrice*Units,",
+				"          TotalCost = StandardCost*Units) ~> derivedColumn1",
+				"derivedColumn1 derive(GrossProfit = TotalRevenue-TotalCost) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

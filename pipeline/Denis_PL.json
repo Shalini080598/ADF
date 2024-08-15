@@ -81,10 +81,57 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "Sales",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SubCategories",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "SalesRep",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Geography",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Categories",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Product",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Sales_PL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2024-08-14T21:42:48Z"
+		"lastPublishTime": "2024-08-14T23:56:29Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

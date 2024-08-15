@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "Categories",
+				"fileName": "CategoriesSD",
 				"container": "denisdimstagingdata"
 			},
 			"columnDelimiter": ",",

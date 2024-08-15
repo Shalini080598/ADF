@@ -128,10 +128,72 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "DenisUseCase1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Sales",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DenisUseCase1_DF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DenisUseCase2",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Sales",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DenisDaybySales_DF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2024-08-14T23:56:29Z"
+		"lastPublishTime": "2024-08-15T13:55:29Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

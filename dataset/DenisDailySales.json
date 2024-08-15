@@ -1,0 +1,17 @@
+{
+	"name": "DenisDailySales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adftoasql_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": "DenisDailySales_Tb"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
